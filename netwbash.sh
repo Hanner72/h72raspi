@@ -27,6 +27,12 @@ if [ "$ethyn" != n ]; then
    read -p "Wie lautet die IP vom Router? (e.g. 192.168.8.1):" ipethrouter
 fi
 echo
+
+echo "Deine momentanen IP Adressen für wlan0 sind: "
+echo
+ip addr show wlan0 | grep inet
+echo
+
 # Feste Adressen für eth0 vergeben
 read -p "Feste IP Adressen für wlan0 vergeben? (y/n):" wlanyn
 echo
