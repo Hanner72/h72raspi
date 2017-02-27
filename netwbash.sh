@@ -55,8 +55,8 @@ allow-hotplug wlan0
 auto wlan0
 iface wlan0 inet static
 address $ipraspi
-gateway $subnetraspi
-netmask $iprouter
+gateway $iprouter
+netmask $subnetraspi
 wpa-ssid "$netzssid"
 wpa-psk "$netzpwd"
 EOF
