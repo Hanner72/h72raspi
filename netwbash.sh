@@ -67,5 +67,6 @@ sudo rm -r h72raspi
 echo
 echo "OK!"
 echo
-echo "Deine IP Adresse! :
+echo "Deine IP Adresse! :"
 ip -4 addr show dev wlan0 | grep inet
+sleep 10
