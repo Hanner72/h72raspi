@@ -33,12 +33,13 @@ echo "IP vom Router: "$iprouter
 # Don't change anything beyond this point
 ###########################################
 
-sleep 5
+sleep 2
 
 # Reconfigure interfaces
 cat /etc/network/interfaces > /etc/network/interfacesorig
 sleep 3
 echo "Datei /etc/network/interfaces nach /etc/network/interfacesorig kopiert!"
+echo
 
 cat > /etc/network/interfaces <<EOF
 auto lo
@@ -57,7 +58,17 @@ gateway $subnetraspi    #vorher raspi_client_nm="255.255.255.0"
 netmask $iprouter       #vorher raspi_client_gw="192.168.2.1"
 EOF
 
+sleep 3
+echo "Neue Daten in /etc/network/interfaces geschrieben!"
+echo
+
 # Reconfigure wpa_supplicant
+cat /etc/wpa_supplicant/wpa_supplicant.conf > /etc/wpa_supplicant/wpa_supplicant.orig
+sleep 3
+echo "Datei /wpa_supplicant.conf nach /wpa_supplicant.orig kopiert!"
+echo
+sleep 3
+
 cat > /etc/wpa_supplicant/wpa_supplicant.conf <<EOF
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
@@ -69,3 +80,17 @@ network={
     key_mgmt=WPA-PSK
 }
 EOF
+
+sleep 3
+echo "Neue Daten in /etc/wpa_supplicant/wpa_supplicant.conf geschrieben!"
+echo
+sleep 3
+
+sudo ifconfig wlan0 down
+sleep 3
+sudo ifconfig wlan0 up
+sleep 3
+echo "Netzwerkdienst neu gestartet!"
+sleep 1
+echo
+echo "FERTIG !!!"
