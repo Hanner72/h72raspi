@@ -68,4 +68,4 @@ echo
 echo "OK!"
 echo
 echo "Deine IP Adresse! :
-ifconfig
+ip -4 addr show dev wlan0 | grep inet
