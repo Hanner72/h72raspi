@@ -46,10 +46,7 @@ cat > /etc/network/interfaces <<EOF
 auto lo eth0
 iface lo inet loopback
 
-iface eth0 inet static
-address 192.168.178.21
-netmask 255.255.255.0
-gateway 192.168.178.1
+iface eth0 inet dhcp
 
 allow-hotplug wlan0
 auto wlan0
