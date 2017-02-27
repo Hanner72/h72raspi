@@ -57,8 +57,8 @@ iface wlan0 inet static
 address $ipraspi
 gateway $subnetraspi
 netmask $iprouter
-wpa-ssid "netzssid"
-wpa-psk "netzpwd"
+wpa-ssid "$netzssid"
+wpa-psk "$netzpwd"
 EOF
 
 sleep 3
