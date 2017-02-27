@@ -8,20 +8,52 @@
 echo
 echo "Das Einstellungsscript wurde gestartet!"
 echo
-read -p "Wie soll die IP Adresse von deinem RasPI lauten? (e.g. 192.168.8.100):" ipraspi
-read -p "Subnetmaske ändern? Aktuell 255.255.255.0! (y/n):" subnetyn
-# Subnetmask ändern oder nicht
-if [ "$subnetyn" != n ]; then
-   read -p "Wie lautet die Subnetmask? (e.g. 255.255.255.0):" subnetraspi
-else
-   subnetraspi="255.255.255.0"
+# Feste Adressen für eth0 vergeben
+echo "Deine momentanen IP Adressen für eth0 sind: "
+echo
+ip addr show eth0 | grep inet
+echo
+read -p "Feste IP Adressen für eth0 vergeben? (y/n):" ethyn
+echo
+if [ "$ethyn" != n ]; then
+   read -p "Wie soll die IP Adresse von deinem RasPI lauten? (e.g. 192.168.8.100):" ipethraspi
+   read -p "Subnetmaske ändern? Aktuell 255.255.255.0! (y/n):" subnetethyn
+   # Subnetmask ändern oder nicht
+   if [ "$subnetethyn" != n ]; then
+      read -p "Wie lautet die Subnetmask? (e.g. 255.255.255.0):" subnetethraspi
+   else
+      subnetraspi="255.255.255.0"
+   fi
+   read -p "Wie lautet die IP vom Router? (e.g. 192.168.8.1):" ipethrouter
 fi
-read -p "Wie lautet die IP vom Router? (e.g. 192.168.8.1):" iprouter
+echo
+# Feste Adressen für eth0 vergeben
+read -p "Feste IP Adressen für wlan0 vergeben? (y/n):" wlanyn
+echo
+if [ "$ethyn" != n ]; then
+   read -p "Wie soll die IP Adresse von deinem RasPI lauten? (e.g. 192.168.8.100):" ipraspi
+   read -p "Subnetmaske ändern? Aktuell 255.255.255.0! (y/n):" subnetyn
+   # Subnetmask ändern oder nicht
+   if [ "$subnetyn" != n ]; then
+      read -p "Wie lautet die Subnetmask? (e.g. 255.255.255.0):" subnetraspi
+   else
+      subnetraspi="255.255.255.0"
+   fi
+   read -p "Wie lautet die IP vom Router? (e.g. 192.168.8.1):" iprouter
+fi
+
+echo
+
 read -p "Wie lautet die Netzwerk SSID?:" netzssid
 read -p "Wie lautet das Passwort für das Netzwerk?:" netzpwd
 
 echo
 echo "Deine Eingaben: "
+echo "eth0:------------"
+echo "Raspberry IP: "$ipethraspi
+echo "Subnetmask: "$subnetethraspi
+echo "IP vom Router: "$ipethrouter
+echo "wlan0:-----------"
 echo "Raspberry IP: "$ipraspi
 echo "Subnetmask: "$subnetraspi
 echo "IP vom Router: "$iprouter
@@ -41,14 +73,18 @@ source-directory /etc/network/interfaces.d
 auto lo
 iface lo inet loopback
 
-iface eth0 inet manual
-auto wlan0
+auto eth0
+iface eth0 inet static
+   address $ipethraspi
+   netmask $subnetethraspi
+   gateway $ipethrouter
+
 allow-hotplug wlan0
 iface wlan0 inet static
-address $ipraspi
-netmask $subnetraspi
-gateway $iprouter
-   wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+   address $ipraspi
+   netmask $subnetraspi
+   gateway $iprouter
+      wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
 iface default inet dhcp
 EOF
 
