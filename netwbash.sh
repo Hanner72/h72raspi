@@ -36,7 +36,7 @@ echo
 # Feste Adressen für eth0 vergeben
 read -p "Feste IP Adressen für wlan0 vergeben? (y/n):" wlanyn
 echo
-if [ "$ethyn" != n ]; then
+if [ "$wlanyn" != n ]; then
    read -p "Wie soll die IP Adresse von deinem RasPI lauten? (e.g. 192.168.8.100):" ipraspi
    read -p "Subnetmaske ändern? Aktuell 255.255.255.0! (y/n):" subnetyn
    # Subnetmask ändern oder nicht
@@ -79,18 +79,30 @@ source-directory /etc/network/interfaces.d
 auto lo
 iface lo inet loopback
 
-auto eth0
-iface eth0 inet static
-   address $ipethraspi
-   netmask $subnetethraspi
-   gateway $ipethrouter
+if [ "$ethyn" != n ]; then
+   auto eth0
+   iface eth0 inet static
+      address $ipethraspi
+      netmask $subnetethraspi
+      gateway $ipethrouter
+else
+   iface eth0 inet dhcp  
+fi
 
+if [ "$wlanyn" != n ]; then
 allow-hotplug wlan0
 iface wlan0 inet static
    address $ipraspi
    netmask $subnetraspi
    gateway $iprouter
       wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+else
+   auto wlan0
+   allow-hotplug wlan0
+   iface wlan0 inet dhcp
+      wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf 
+fi
+
 iface default inet dhcp
 EOF
 
