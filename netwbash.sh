@@ -57,8 +57,6 @@ sleep 3
 echo "Netzwerkdienst neu gestartet!"
 sleep 1
 echo
-echo "FERTIG !!!"
-echo
 echo "Jetz nur noch den Installordner entfernen lassen!"
 sleep 2
 
@@ -70,3 +68,14 @@ echo
 echo "Deine IP Adresse! :"
 ip -4 addr show dev wlan0 | grep inet
 sleep 10
+echo
+read -p "Einstellung erst nach einem reboot aktuell! Jetzt rebooten? (y/n)" $rebootyn
+echo
+if [ $rebootyn==y ]; then
+   echo "RasPI wird neu gestartet..."
+   sleep 3
+   sudo reboot now
+   else
+   echo "FERTIG!"
+   echo
+fi
