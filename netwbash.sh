@@ -49,16 +49,14 @@ iface lo inet loopback
 iface eth0 inet dhcp
 
 allow-hotplug wlan0
-iface wlan0 inet manual
-    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
-    
-auto wlan0
-iface wlan0 inet static
-address $ipraspi        #vorher raspi_client_ip="192.168.2.2"
-gateway $subnetraspi    #vorher raspi_client_nm="255.255.255.0"
-netmask $iprouter       #vorher raspi_client_gw="192.168.2.1"
 
-iface default inet dhcp
+#auto wlan0
+iface wlan0 inet manual
+    address $ipraspi        #vorher raspi_client_ip="192.168.2.2"
+    gateway $subnetraspi    #vorher raspi_client_nm="255.255.255.0"
+    netmask $iprouter       #vorher raspi_client_gw="192.168.2.1"
+    #wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+    wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
 EOF
 
 sleep 3
