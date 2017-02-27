@@ -84,7 +84,7 @@ source-directory /etc/network/interfaces.d
 auto lo
 iface lo inet loopback
 
-$etheinst
+echo -e "$etheinst"
 
 if [ "$wlanyn" != n ]; then
 allow-hotplug wlan0
