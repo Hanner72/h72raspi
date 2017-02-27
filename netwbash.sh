@@ -19,6 +19,7 @@ echo "Deine Eingaben: "
 echo "Raspberry IP: "$ipraspi
 echo "Subnetmask: "$subnetraspi
 echo "IP vom Router: "$iprouter
+echo
 
 # Change anything beyond this point
 ###########################################
@@ -56,6 +57,8 @@ iface wlan0 inet static
 address $ipraspi        #vorher raspi_client_ip="192.168.2.2"
 gateway $subnetraspi    #vorher raspi_client_nm="255.255.255.0"
 netmask $iprouter       #vorher raspi_client_gw="192.168.2.1"
+
+iface default inet dhcp
 EOF
 
 sleep 3
@@ -94,3 +97,11 @@ echo "Netzwerkdienst neu gestartet!"
 sleep 1
 echo
 echo "FERTIG !!!"
+echo
+echo "Jetz nur noch den Installordner entfernen lassen!"
+sleep 2
+
+sudo rm -r h72raspi
+
+echo
+echo "OK!"
