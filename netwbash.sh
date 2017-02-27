@@ -83,6 +83,20 @@ else
    ifaceeth="iface eth0 inet dhcp " 
 fi
 
+if [ "$wlanyn" != n ]; then
+   allowwlan="allow-hotplug wlan0"
+   ifacewlan="iface wlan0 inet static"
+   addresswlan="address $ipraspi"
+   netmaskwlan="netmask $subnetraspi"
+   gatewaywlan="gateway $iprouter"
+      wpa="wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf"
+else
+   autowlan="auto wlan0"
+   allowwlan="allow-hotplug wlan0"
+   ifacewlan="iface wlan0 inet dhcp"
+      wpa="wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf" 
+fi
+
 cat > /etc/network/interfaces <<EOF
 source-directory /etc/network/interfaces.d
 
@@ -95,19 +109,13 @@ iface lo inet loopback
    $netmasketh
    $gatewayeth
 
-if [ "$wlanyn" != n ]; then
-allow-hotplug wlan0
-iface wlan0 inet static
-   address $ipraspi
-   netmask $subnetraspi
-   gateway $iprouter
-      wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
-else
-   auto wlan0
-   allow-hotplug wlan0
-   iface wlan0 inet dhcp
-      wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf 
-fi
+$autowlan
+$allowwlan
+$ifacewlan
+   $addresswlan
+   $netmaskwlan
+   $gatewaywlan
+      $wpa
 
 iface default inet dhcp
 EOF
