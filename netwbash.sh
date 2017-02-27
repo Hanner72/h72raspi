@@ -74,9 +74,9 @@ echo "Datei /etc/network/interfaces nach /etc/network/interfacesorig kopiert!"
 echo
 
 if [ "$ethyn" != n ]; then
-   etheinst = echo -e "auto eth0\niface eth0 inet static\naddress $ipethraspi\nnetmask $subnetethraspi\ngateway $ipethrouter"
+   $etheinst = echo -e "auto eth0\niface eth0 inet static\naddress $ipethraspi\nnetmask $subnetethraspi\ngateway $ipethrouter"
 else
-   etheinst = "iface eth0 inet dhcp " 
+   $etheinst = "iface eth0 inet dhcp " 
 fi
 cat > /etc/network/interfaces <<EOF
 source-directory /etc/network/interfaces.d
