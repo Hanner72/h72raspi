@@ -43,49 +43,27 @@ echo "Datei /etc/network/interfaces nach /etc/network/interfacesorig kopiert!"
 echo
 
 cat > /etc/network/interfaces <<EOF
-auto lo
+auto lo eth0
 iface lo inet loopback
 
-iface eth0 inet dhcp
+iface eth0 inet static
+address 192.168.178.21
+netmask 255.255.255.0
+gateway 192.168.178.1
 
 allow-hotplug wlan0
-
-#auto wlan0
-iface wlan0 inet manual
-    address $ipraspi        #vorher raspi_client_ip="192.168.2.2"
-    gateway $subnetraspi    #vorher raspi_client_nm="255.255.255.0"
-    netmask $iprouter       #vorher raspi_client_gw="192.168.2.1"
-    #wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
-    wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+auto wlan0
+iface wlan0 inet static
+address $ipraspi
+gateway $subnetraspi
+netmask $iprouter
+wpa-ssid "netzssid"
+wpa-psk "netzpwd"
 EOF
 
 sleep 3
 echo "Neue Daten in /etc/network/interfaces geschrieben!"
 echo
-
-# Reconfigure wpa_supplicant
-cat /etc/wpa_supplicant/wpa_supplicant.conf > /etc/wpa_supplicant/wpa_supplicant.orig
-sleep 3
-echo "Datei /wpa_supplicant.conf nach /wpa_supplicant.orig kopiert!"
-echo
-sleep 3
-
-cat > /etc/wpa_supplicant/wpa_supplicant.conf <<EOF
-ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-update_config=1
-country=AT
-
-network={
-    ssid="$netzssid"
-    psk="$netzpwd"
-    key_mgmt=WPA-PSK
-}
-EOF
-
-sleep 3
-echo "Neue Daten in /etc/wpa_supplicant/wpa_supplicant.conf geschrieben!"
-echo
-sleep 3
 
 sudo ifconfig wlan0 down
 sleep 3
