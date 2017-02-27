@@ -9,9 +9,9 @@ echo
 echo "Das Einstellungsscript wurde gestartet!"
 echo
 read -p "Wie soll die IP Adresse von deinem RasPI lauten? (e.g. 192.168.8.100):" ipraspi
-read -p "Subnetmaske ändern? Aktuell 255.255.255.0! :" subnetyn
+read -p "Subnetmaske ändern? Aktuell 255.255.255.0! (y/n):" subnetyn
 # Subnetmask ändern oder nicht
-if [ $subnetyn==y ]; then
+if [ "$subnetyn" != n ]; then
    read -p "Wie lautet die Subnetmask? (e.g. 255.255.255.0):" subnetraspi
 else
    subnetraspi="255.255.255.0"
@@ -77,7 +77,7 @@ sleep 10
 echo
 read -p "Einstellung erst nach einem reboot aktuell! Jetzt rebooten? (y/n)" $rebootyn
 echo
-if [ $rebootyn==y ]; then
+if [ "$rebootyn" != n ]; then
    echo "RasPI wird neu gestartet..."
    sleep 3
    sudo reboot now
