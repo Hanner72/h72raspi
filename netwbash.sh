@@ -22,7 +22,7 @@ if [ "$ethyn" != n ]; then
    if [ "$subnetethyn" != n ]; then
       read -p "Wie lautet die Subnetmask? (e.g. 255.255.255.0):" subnetethraspi
    else
-      subnetraspi="255.255.255.0"
+      subnetethraspi="255.255.255.0"
    fi
    read -p "Wie lautet die IP vom Router? (e.g. 192.168.8.1):" ipethrouter
 fi
@@ -73,21 +73,18 @@ sleep 3
 echo "Datei /etc/network/interfaces nach /etc/network/interfacesorig kopiert!"
 echo
 
+if [ "$ethyn" != n ]; then
+   etheinst = "auto eth0\niface eth0 inet static\naddress $ipethraspi\nnetmask $subnetethraspi\ngateway $ipethrouter"
+else
+   etheinst = "iface eth0 inet dhcp " 
+fi
 cat > /etc/network/interfaces <<EOF
 source-directory /etc/network/interfaces.d
 
 auto lo
 iface lo inet loopback
 
-if [ "$ethyn" != n ]; then
-   auto eth0
-   iface eth0 inet static
-      address $ipethraspi
-      netmask $subnetethraspi
-      gateway $ipethrouter
-else
-   iface eth0 inet dhcp  
-fi
+$etheinst
 
 if [ "$wlanyn" != n ]; then
 allow-hotplug wlan0
