@@ -73,9 +73,9 @@ echo "OK!"
 echo
 echo "Deine IP Adresse! :"
 ip -4 addr show dev wlan0 | grep inet
-sleep 10
+sleep 3
 echo
-read -p "Einstellung erst nach einem reboot aktuell! Jetzt rebooten? (y/n)" $rebootyn
+read -p "Einstellung erst nach einem reboot aktuell! Jetzt rebooten? (y/n)" rebootyn
 echo
 if [ "$rebootyn" != n ]; then
    echo "RasPI wird neu gestartet..."
