@@ -9,7 +9,13 @@ echo
 echo "Das Einstellungsscript wurde gestartet!"
 echo
 read -p "Wie soll die IP Adresse von deinem RasPI lauten? (e.g. 192.168.8.100):" ipraspi
-read -p "Wie lautet die Subnetmask? (e.g. 255.255.255.0):" subnetraspi
+read -p "Subnetmaske ändern? Aktuell 255.255.255.0! :" subnetyn
+# Subnetmask ändern oder nicht
+if [ $subnetyn==y ]; then
+   read -p "Wie lautet die Subnetmask? (e.g. 255.255.255.0):" subnetraspi
+else
+   subnetraspi="255.255.255.0"
+fi
 read -p "Wie lautet die IP vom Router? (e.g. 192.168.8.1):" iprouter
 read -p "Wie lautet die Netzwerk SSID?:" netzssid
 read -p "Wie lautet das Passwort für das Netzwerk?:" netzpwd
@@ -75,7 +81,7 @@ if [ $rebootyn==y ]; then
    echo "RasPI wird neu gestartet..."
    sleep 3
    sudo reboot now
-   else
+else
    echo "FERTIG!"
    echo
 fi
