@@ -74,17 +74,26 @@ echo "Datei /etc/network/interfaces nach /etc/network/interfacesorig kopiert!"
 echo
 
 if [ "$ethyn" != n ]; then
-   etheinst="auto eth0\niface eth0 inet static\naddress $ipethraspi\nnetmask $subnetethraspi\ngateway $ipethrouter"
+   autoeth="auto eth0"
+   ifaceeth="iface eth0 inet static"
+   addresseth="address $ipethraspi"
+   netmasketh="netmask $subnetethraspi"
+   gatewayeth="gateway $ipethrouter"
 else
-   etheinst="iface eth0 inet dhcp " 
+   ifaceeth="iface eth0 inet dhcp " 
 fi
+
 cat > /etc/network/interfaces <<EOF
 source-directory /etc/network/interfaces.d
 
 auto lo
 iface lo inet loopback
 
-echo -e "$etheinst"
+   $autoeth
+   $ifaceeth
+   $addresseth
+   $netmasketh
+   $gatewayeth
 
 if [ "$wlanyn" != n ]; then
 allow-hotplug wlan0
